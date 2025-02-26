@@ -1,0 +1,75 @@
+{% extends 'base.html' %}
+
+{% block title %} {{ instance_content.name }} {% endblock %}
+
+{% block content %}
+<div class="container mt-3">
+    <div class="card shadow-sm p-3">
+        <div class="row g-2" id="icons-container">
+            <div class="col-12 col-md-5">
+                <div class="card icon-card cursor-pointer text-center">
+                    <div class="card-body">
+                        <p class="icon-name text-capitalize text-wrap mb-0">{{ instance_content.name }}</p>
+                    </div>
+                </div>
+            </div>
+            <div class="col-6 col-md-3">
+                <div class="card icon-card cursor-pointer text-center">
+                    <div class="card-body">
+                        <p class="icon-name text-capitalize text-wrap mb-0">{{ instance_content.time }}</p>
+                    </div>
+                </div>
+            </div>
+            <div class="col-6 col-md-3">
+                <div class="card icon-card cursor-pointer text-center">
+                    <div class="card-body">
+                        <p class="icon-name text-capitalize text-wrap mb-0">{{ instance_content.duration }}</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <hr>
+        <h5 class="card-header">Main Content</h5>
+        <div class="table-responsive">
+            <table class="table table-borderless">
+                <tbody>
+                {% for item in instance_content.content_text.all %}
+                <tr>
+                    <td class="align-middle"><small class="fw-semibold">{{ item.name }}</small></td>
+                    <td class="py-3">
+                        <p class="mb-0">{{ item.description|safe }}</p>
+                    </td>
+                </tr>
+                {% endfor %}
+                </tbody>
+            </table>
+        </div>
+
+        <hr>
+        <h5 class="card-header font-bold">Examples</h5>
+        <div class="table-responsive">
+            <table class="table table-borderless" style="background-color: #def3d4;">
+                <tbody>
+                {% for item in instance_content.content_example.all %}
+                <tr>
+                    <td class="align-middle"><small class="fw-semibold">{{ item.name }}</small></td>
+                    <td class="py-3">
+                        <p class="mb-0">{{ item.description|safe }}</p>
+                    </td>
+                </tr>
+                {% endfor %}
+                </tbody>
+            </table>
+        </div>
+
+        <hr>
+        <h5 class="card-header">Primary Resources</h5>
+        <div class="d-flex flex-column">
+            {% for item in instance_content.content_resource.all %}
+            <a class="card-header" href="{{ item.link }}" target="_blank">{{ item.name }}</a>
+            {% endfor %}
+        </div>
+    </div>
+</div>
+{% endblock %}

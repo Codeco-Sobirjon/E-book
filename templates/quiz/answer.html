@@ -1,0 +1,27 @@
+{% extends 'base.html' %}
+
+{% block title %} Answer {% endblock %}
+
+{% block content %}
+<div class="container mt-5">
+    <div class="card shadow-sm">
+        <div class="card-body p-4">
+            <h2 class="mb-3">Question: {{ question.text }}</h2>
+
+            <div class="mb-3">
+                <p>Your answer: <strong>{{ submitted_answer.text }}</strong></p>
+                {% if submitted_answer.is_correct %}
+                    <p class="text-success fw-bold">✅ Correct!</p>
+                {% else %}
+                    <p class="text-danger fw-bold">❌ Incorrect!</p>
+                    <p>The correct answer was: <strong>{{ correct_answer.text }}</strong></p>
+                {% endif %}
+            </div>
+
+            <div class="text-center">
+                <a href="{% url 'get_questions' quiz_id %}" class="btn btn-primary">Next Question</a>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

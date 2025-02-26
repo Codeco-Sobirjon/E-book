@@ -1,0 +1,61 @@
+{% extends 'base.html' %}
+
+{% load custom_filters %}
+
+{% block title %} Home page {% endblock %}
+
+{% block content %}
+
+<div class="container mt-3">
+    <div class="card shadow-sm p-3">
+        <div class="row g-2" id="icons-container">
+            <div class="card">
+                <h5 class="card-header">Lesson developments</h5>
+                <div class="table-responsive text-nowrap">
+                    <table class="table table-hover">
+                        <thead>
+                        <tr>
+                            <th>N</th>
+                            <th>Name lesson developments</th>
+                            <th>File</th>
+                        </tr>
+                        </thead>
+                        <tbody class="table-border-bottom-0">
+                        {% for item in lesson_dev %}
+                        <tr>
+                            <td> {{ forloop.counter }} </td>
+                            <td><strong>{{ item.name }}</strong>
+                            </td>
+                            <td><a href="{{ item.file.url }}" class="btn btn-primary">Download</a></td>
+                        </tr>
+                        {% endfor %}
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+            <div class="card">
+                <h5 class="card-header">Videos</h5>
+                <div class="card-body">
+                    <div class="row">
+                        {% for video in videos %}
+                        <div class="col-md-4">
+                            <div class="embed-responsive embed-responsive-16by9">
+                                <iframe class="embed-responsive-item"
+                                        src="{{ video.url_video|youtube_embed }}"
+                                        allowfullscreen>
+                                </iframe>
+                            </div>
+                        </div>
+                        {% empty %}
+                        <p class="text-muted">No videos available.</p>
+                        {% endfor %}
+                    </div>
+                </div>
+            </div>
+
+        </div>
+    </div>
+</div>
+
+
+{% endblock %}
