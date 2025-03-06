@@ -1420,7 +1420,7 @@ msgid "Terms Page"
 msgstr "Shartlar Sahifasi"
 
 msgid "Terms"
-msgstr "Shartlar"
+msgstr "Atamalar"
 
 msgid "Skip"
 msgstr "Oʻtkazib yuborish"
@@ -1457,6 +1457,3 @@ msgstr "Hali test mavjud emas..."
 
 msgid "No content available."
 msgstr "Kontent mavjud emas"
-
-msgid "Terms"
-msgstr "Atamalar"
