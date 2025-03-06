@@ -1455,3 +1455,6 @@ msgstr "No Quiz yet..."
 
 msgid "No content available."
 msgstr "No content available."
+
+msgid "Terms"
+msgstr "Terms"

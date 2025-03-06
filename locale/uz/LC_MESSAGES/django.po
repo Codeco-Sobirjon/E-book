@@ -1457,3 +1457,6 @@ msgstr "Hali test mavjud emas..."
 
 msgid "No content available."
 msgstr "Kontent mavjud emas"
+
+msgid "Terms"
+msgstr "Atamalar"
