@@ -99,6 +99,7 @@ def search_view(request):
     })
 
 
+@login_required
 def quiz_test(request, subcategory_id):
     subcategory = get_object_or_404(Category, id=subcategory_id)
 
