@@ -206,6 +206,7 @@ class EntersPage(models.Model):
     objects = models.Manager()
 
     class Meta:
+        db_table = "e_book_enterpage"
         verbose_name = "Enter Page"
         verbose_name_plural = "4. Enter Pages"
         ordering = ['created_at']
