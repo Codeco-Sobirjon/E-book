@@ -2,7 +2,7 @@ from django.contrib import admin
 from apps.e_book.models import (
     Category, TopLevelCategory, SubCategory,
     Content, ContentText, ContentResources, ContnetExamples, ContentTerm,
-    Quiz, Question, Answer, Videos, LessonDevelopments, EnterPage
+    Quiz, Question, Answer, Videos, LessonDevelopments, EntersPage
 )
 
 
@@ -99,7 +99,7 @@ class ContentAdmin(admin.ModelAdmin):
         verbose_name_plural = "Контенты"
 
 
-@admin.register(EnterPage)
+@admin.register(EntersPage)
 class EnterPageAdmin(admin.ModelAdmin):
     list_display = ('name', 'category', 'created_at')
 

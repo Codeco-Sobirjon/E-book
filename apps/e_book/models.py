@@ -130,22 +130,6 @@ class ContentTerm(models.Model):
         verbose_name_plural = "Content Terms"
         ordering = ['created_at']
 
-
-class EnterPage(models.Model):
-    name = models.CharField(_("Name"), max_length=250, null=True, blank=True)
-    description = RichTextField(verbose_name="Short Description")
-    category = models.ForeignKey('Category', on_delete=models.CASCADE, related_name="enter_pages", null=True, blank=True)
-    created_at = models.DateField(auto_now_add=True, null=True, blank=True, verbose_name="Publication Date")
-
-    objects = models.Manager()
-
-    class Meta:
-        db_table = "e_book_enterpage"
-        verbose_name = "Enter Page"
-        verbose_name_plural = "4. Enter Pages"
-        ordering = ['created_at']
-
-
 class Quiz(models.Model):
     title = models.CharField(max_length=255, verbose_name=_("Quiz Title"), null=True, blank=True)
     category = models.ForeignKey('Category', on_delete=models.CASCADE, related_name="quizzes", null=True, blank=True)
@@ -211,3 +195,17 @@ class LessonDevelopments(models.Model):
     class Meta:
         verbose_name = _("Lesson Development")
         verbose_name_plural = _("8. Lesson Developments")
+
+
+class EntersPage(models.Model):
+    name = models.CharField(_("Name"), max_length=250, null=True, blank=True)
+    description = RichTextField(verbose_name="Short Description")
+    category = models.ForeignKey('Category', on_delete=models.CASCADE, related_name="enter_pages", null=True, blank=True)
+    created_at = models.DateField(auto_now_add=True, null=True, blank=True, verbose_name="Publication Date")
+
+    objects = models.Manager()
+
+    class Meta:
+        verbose_name = "Enter Page"
+        verbose_name_plural = "4. Enter Pages"
+        ordering = ['created_at']
