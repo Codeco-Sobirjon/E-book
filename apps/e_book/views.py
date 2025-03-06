@@ -7,7 +7,7 @@ from django.shortcuts import render, get_object_or_404, redirect
 from django.urls import reverse
 
 from apps.e_book.models import Category, Content, SubCategory, ContentTerm, ContentResources, Quiz, Question, Answer, \
-    Videos, LessonDevelopments
+    Videos, LessonDevelopments, EnterPage
 from django.utils import translation
 from django.http import JsonResponse
 from django.db.models import Q, Count
@@ -145,3 +145,14 @@ def quiz_test(request, subcategory_id):
         "quiz": quiz,
         "questions": questions
     })
+
+
+@login_required
+def enter_page_view(request, *args, **kwargs):
+    instance = get_object_or_404(Category, id=kwargs.get('id'))
+    queryset = EnterPage.objects.select_related('category').filter(category=instance)
+
+    context = {
+        'queryset': queryset
+    }
+    return render(request, 'enter_page.html', context)

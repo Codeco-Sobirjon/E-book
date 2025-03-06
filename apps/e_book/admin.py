@@ -2,7 +2,7 @@ from django.contrib import admin
 from apps.e_book.models import (
     Category, TopLevelCategory, SubCategory,
     Content, ContentText, ContentResources, ContnetExamples, ContentTerm,
-    Quiz, Question, Answer, Videos, LessonDevelopments
+    Quiz, Question, Answer, Videos, LessonDevelopments, EnterPage
 )
 
 
@@ -99,6 +99,16 @@ class ContentAdmin(admin.ModelAdmin):
         verbose_name_plural = "Контенты"
 
 
+@admin.register(EnterPage)
+class EnterPageAdmin(admin.ModelAdmin):
+    list_display = ('name', 'category', 'created_at')
+
+    def formfield_for_foreignkey(self, db_field, request, **kwargs):
+        if db_field.name == "category":
+            kwargs["queryset"] = Category.objects.filter(parent__isnull=False, is_enter_page=True)
+        return super().formfield_for_foreignkey(db_field, request, **kwargs)
+
+
 class AnswerInline(admin.TabularInline):
     model = Answer
     extra = 1
@@ -110,6 +120,11 @@ class QuizAdmin(admin.ModelAdmin):
     list_display = ('title', 'category')
     search_fields = ('title',)
     exclude = ('title',)
+
+    def formfield_for_foreignkey(self, db_field, request, **kwargs):
+        if db_field.name == "category":
+            kwargs["queryset"] = Category.objects.filter(parent__isnull=False, is_test_page=True)
+        return super().formfield_for_foreignkey(db_field, request, **kwargs)
 
 
 @admin.register(Question)

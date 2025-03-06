@@ -15,6 +15,7 @@ class Category(models.Model):
     parent = models.ForeignKey('self', on_delete=models.CASCADE, null=True, blank=True,
                                verbose_name="Parent Category", related_name='subcategories')
     is_test_page = models.BooleanField(default=False, null=True, blank=True, verbose_name="Test Page")
+    is_enter_page = models.BooleanField(default=False, null=True, blank=True, verbose_name="Enter Page")
     created_at = models.DateField(auto_now_add=True, null=True, blank=True, verbose_name="Publication Date")
 
     objects = models.Manager()
@@ -130,6 +131,20 @@ class ContentTerm(models.Model):
         ordering = ['created_at']
 
 
+class EnterPage(models.Model):
+    name = models.CharField(_("Name"), max_length=250, null=True, blank=True)
+    description = RichTextField(verbose_name="Short Description")
+    category = models.ForeignKey('Category', on_delete=models.CASCADE, related_name="enter_pages", null=True, blank=True)
+    created_at = models.DateField(auto_now_add=True, null=True, blank=True, verbose_name="Publication Date")
+
+    objects = models.Manager()
+
+    class Meta:
+        verbose_name = "Enter Page"
+        verbose_name_plural = "4. Enter Pages"
+        ordering = ['created_at']
+
+
 class Quiz(models.Model):
     title = models.CharField(max_length=255, verbose_name=_("Quiz Title"), null=True, blank=True)
     category = models.ForeignKey('Category', on_delete=models.CASCADE, related_name="quizzes", null=True, blank=True)
@@ -141,7 +156,7 @@ class Quiz(models.Model):
 
     class Meta:
         verbose_name = _("Quiz")
-        verbose_name_plural = _("4. Quizzes")
+        verbose_name_plural = _("5. Quizzes")
 
 
 class Question(models.Model):
@@ -155,7 +170,7 @@ class Question(models.Model):
 
     class Meta:
         verbose_name = _("Question")
-        verbose_name_plural = _("5. Questions")
+        verbose_name_plural = _("6. Questions")
 
 
 class Answer(models.Model):
@@ -180,7 +195,7 @@ class Videos(models.Model):
 
     class Meta:
         verbose_name = _("Video")
-        verbose_name_plural = _("6. Videos")
+        verbose_name_plural = _("7. Videos")
 
 
 class LessonDevelopments(models.Model):
@@ -194,4 +209,4 @@ class LessonDevelopments(models.Model):
 
     class Meta:
         verbose_name = _("Lesson Development")
-        verbose_name_plural = _("7. Lesson Developments")
+        verbose_name_plural = _("8. Lesson Developments")

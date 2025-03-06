@@ -1,0 +1,20 @@
+{% extends 'base.html' %}
+
+{% block title %} {{ instance.name }} {% endblock %}
+
+{% block content %}
+
+<div class="container mt-3">
+    <div class="card shadow-sm p-3">
+        {% for item in queryset %}
+            <h2 class="text-center">{{ item.name }}</h2>
+            <div class="mt-3 text-center">
+                <p class="text-center">{{ item.content|safe }}</p>
+            </div>
+        {% empty %}
+            <p class="text-center">No content available.</p>
+        {% endfor %}
+    </div>
+</div>
+
+{% endblock %}

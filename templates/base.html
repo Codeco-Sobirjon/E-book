@@ -121,18 +121,35 @@
                     {% if category.subcategories.exists %}
                     <ul class="menu-sub">
                         {% for subcategory in category.subcategories.all %}
+                        {% if subcategory.is_enter_page %}
                         <li class="menu-item">
-                            {% if subcategory.is_test_page %}
-                            <a href="{% url 'quiz_test' subcategory.id %}" class="menu-link">
+                            <a href="{% url 'enter_page_view' subcategory.id %}" class="menu-link">
                                 <div>{{ subcategory.name }}</div>
                             </a>
-                            {% else %}
+                        </li>
+                        {% endif %}
+                        {% endfor %}
+
+                        {% for subcategory in category.subcategories.all %}
+                        {% if not subcategory.is_enter_page and not subcategory.is_test_page %}
+                        <li class="menu-item">
                             <a href="{% url 'content_list_view' subcategory.id %}" class="menu-link">
                                 <div>{{ subcategory.name }}</div>
                             </a>
-                            {% endif %}
                         </li>
+                        {% endif %}
                         {% endfor %}
+
+                        {% for subcategory in category.subcategories.all %}
+                        {% if subcategory.is_test_page %}
+                        <li class="menu-item">
+                            <a href="{% url 'quiz_test' subcategory.id %}" class="menu-link">
+                                <div>{{ subcategory.name }}</div>
+                            </a>
+                        </li>
+                        {% endif %}
+                        {% endfor %}
+
                     </ul>
                     {% endif %}
                 </li>
