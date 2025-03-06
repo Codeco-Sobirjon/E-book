@@ -11,7 +11,7 @@
     <div class="container-xxl flex-grow-1 container-p-y">
         <div class="card mb-4">
             {% for item in term_list %}
-                {% if not item.category.is_test_page %}
+                {% if not item.category.is_test_page and not item.category.is_enter_page %}
                     <div class="divider">
                         <div class="divider-text">{{ item.category.name }} (Terms: {{ item.terms.count }})</div>
                         <div class="row d-flex flex-wrap gap-2 w-100 demo-vertical-spacing m-2">

@@ -91,7 +91,7 @@ class ContentAdmin(admin.ModelAdmin):
 
     def formfield_for_foreignkey(self, db_field, request, **kwargs):
         if db_field.name == "category":
-            kwargs["queryset"] = Category.objects.filter(parent__isnull=False)
+            kwargs["queryset"] = Category.objects.filter(parent__isnull=False, is_enter_page=False, is_test_page=False)
         return super().formfield_for_foreignkey(db_field, request, **kwargs)
 
     class Meta:
