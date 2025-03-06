@@ -11,6 +11,25 @@
     <div class="card shadow-sm p-3">
         <div class="row g-2" id="icons-container">
             <div class="card">
+                <h5 class="card-header">{% trans "Videos" %}</h5>
+                <div class="card-body">
+                    <div class="row">
+                        {% for video in videos %}
+                        <div class="col-md-4">
+                            <div class="embed-responsive embed-responsive-16by9">
+                                <iframe class="embed-responsive-item"
+                                        src="{{ video.url_video|youtube_embed }}"
+                                        allowfullscreen>
+                                </iframe>
+                            </div>
+                        </div>
+                        {% empty %}
+                        <p class="text-muted">{% trans "No videos available." %}</p>
+                        {% endfor %}
+                    </div>
+                </div>
+            </div>
+            <div class="card">
                 <h5 class="card-header">{% trans "Lesson developments" %}</h5>
                 <div class="table-responsive text-nowrap">
                     <table class="table table-hover">
@@ -31,25 +50,6 @@
                         {% endfor %}
                         </tbody>
                     </table>
-                </div>
-            </div>
-            <div class="card">
-                <h5 class="card-header">{% trans "Videos" %}</h5>
-                <div class="card-body">
-                    <div class="row">
-                        {% for video in videos %}
-                        <div class="col-md-4">
-                            <div class="embed-responsive embed-responsive-16by9">
-                                <iframe class="embed-responsive-item"
-                                        src="{{ video.url_video|youtube_embed }}"
-                                        allowfullscreen>
-                                </iframe>
-                            </div>
-                        </div>
-                        {% empty %}
-                        <p class="text-muted">{% trans "No videos available." %}</p>
-                        {% endfor %}
-                    </div>
                 </div>
             </div>
         </div>
