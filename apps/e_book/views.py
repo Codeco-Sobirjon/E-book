@@ -1,3 +1,5 @@
+import random
+
 from django.contrib import messages
 from django.contrib.auth.decorators import login_required
 from django.http import JsonResponse, HttpResponseRedirect, Http404, HttpRequest, HttpResponse, HttpResponseBadRequest
@@ -97,123 +99,49 @@ def search_view(request):
     })
 
 
-def start_quiz_view(request, category_id):
-    category = get_object_or_404(Category, id=category_id)
-    quizzes = Quiz.objects.filter(category=category).annotate(questions_count=Count('questions'))
-    quiz_get = quizzes.first()
-    return render(request, 'quiz/start_quiz.html', context={'topics': quizzes, 'quiz_get': quiz_get})
+def quiz_test(request, subcategory_id):
+    subcategory = get_object_or_404(Category, id=subcategory_id)
 
+    quizzes = Quiz.objects.filter(category=subcategory)
 
-def start_quiz_questions(request):
-    if request.method != "POST":
-        return HttpResponseBadRequest("Invalid request method")
+    if not quizzes.exists():
+        return render(request, "quiz/no_quizzes.html", {"subcategory": subcategory})
 
-    quiz_id = request.POST.get('quiz_id')
-    if not quiz_id:
-        return HttpResponseBadRequest("Quiz ID is missing.")
+    quiz = quizzes.first()
 
-    _reset_quiz(request)
-    request.session['last_quiz_id'] = quiz_id
-    question = _get_first_question(quiz_id)
+    if request.method == "POST":
+        total_questions = 10
+        correct_answers = 0
+        user_answers = {}
 
-    if question is None:
-        return redirect('get_finish')
+        for key, value in request.POST.items():
+            if key.startswith("question_"):
+                question_id = int(key.split("_")[1])
+                selected_answer_id = int(value)
+                user_answers[question_id] = selected_answer_id
 
-    request.session['question_id'] = question.id
-    return redirect('get_questions', quiz_id=quiz_id)
+                if Answer.objects.filter(id=selected_answer_id, is_correct=True).exists():
+                    correct_answers += 1
 
+        score_percentage = (correct_answers / total_questions) * 100
+        wrong_answers = total_questions - correct_answers
 
-def _get_first_question(quiz_id):
-    return Question.objects.filter(quiz_id=quiz_id).order_by('id').first()
+        return render(request, "quiz/quiz_results.html", {
+            "quiz": quiz,
+            "subcategory": subcategory,
+            "correct_answers": correct_answers,
+            "wrong_answers": wrong_answers,
+            "score_percentage": score_percentage,
+        })
 
+    questions = list(Question.objects.filter(quiz=quiz).order_by('?')[:10])
 
-def get_questions(request, quiz_id):
-    question = _get_subsequent_question(request, quiz_id)
-    request.session['last_quiz_id'] = quiz_id
-    if question is None:
-        return redirect('get_finish')
+    for question in questions:
+        question.answers_list = list(question.answers.all())
+        random.shuffle(question.answers_list)  # Shuffle answers
 
-    request.session['question_id'] = question.id
-    answers = Answer.objects.filter(question=question).order_by("?")
-
-    return render(request, 'quiz/question.html', context={
-        'question': question, 'answers': answers
+    return render(request, "quiz/quiz_test.html", {
+        "subcategory": subcategory,
+        "quiz": quiz,
+        "questions": questions
     })
-
-
-def _get_subsequent_question(request, quiz_id):
-    previous_question_id = request.session.get('question_id')
-    if previous_question_id is None:
-        return None
-
-    next_question = Question.objects.filter(
-        quiz_id=quiz_id, id__gt=previous_question_id
-    ).order_by('id').first()
-    return next_question
-
-
-def get_answer(request):
-    if request.method != "POST":
-        return HttpResponseBadRequest("Invalid request method")
-
-    submitted_answer_id = request.POST.get('answer_id')
-    if not submitted_answer_id:
-        return HttpResponseBadRequest("Answer ID is missing.")
-
-    submitted_answer = get_object_or_404(Answer, id=submitted_answer_id)
-    question = submitted_answer.question
-    quiz_id = question.quiz.id
-
-    if submitted_answer.is_correct:
-        request.session['score'] = request.session.get('score', 0) + 1
-
-    correct_answer = Answer.objects.filter(question=question, is_correct=True).first()
-
-    request.session['last_question_id'] = question.id
-    request.session['last_answer_id'] = submitted_answer.id
-
-    return redirect('show_answer', quiz_id=quiz_id)
-
-
-def show_answer(request, quiz_id):
-    question_id = request.session.get('last_question_id')
-    answer_id = request.session.get('last_answer_id')
-
-    question = get_object_or_404(Question, id=question_id)
-    submitted_answer = get_object_or_404(Answer, id=answer_id)
-    correct_answer = Answer.objects.filter(question=question, is_correct=True).first()
-
-    return render(request, 'quiz/answer.html', context={
-        'question': question,
-        'submitted_answer': submitted_answer,
-        'correct_answer': correct_answer,
-        'quiz_id': quiz_id
-    })
-
-
-def get_finish(request):
-    score = request.session.get('score', 0)
-    quiz_id = request.session.get('last_quiz_id')
-
-    if quiz_id:
-        quiz = get_object_or_404(Quiz, id=quiz_id)
-        questions_count = Question.objects.filter(quiz=quiz).count()
-    else:
-        questions_count = 1
-
-    percent = max(0, min(100, int((score / max(questions_count, 1)) * 100)))
-
-    _reset_quiz(request)
-    quiz = get_object_or_404(Quiz, id=quiz_id)
-
-    return render(request, 'quiz/finish.html', context={
-        'questions_count': questions_count, 'score': score, 'percent_score': percent, 'quiz_id': quiz.category.id
-    })
-
-
-def _reset_quiz(request):
-    request.session.pop('question_id', None)
-    request.session.pop('score', None)
-    request.session.pop('last_question_id', None)
-    request.session.pop('last_answer_id', None)
-    return request
