@@ -1,13 +1,15 @@
 {% extends 'base.html' %}
 
-{% block title %} Quiz Test {% endblock %}
+{% load i18n %}
+
+{% block title %} {% trans "Quiz Test" %} {% endblock %}
 
 {% block content %}
 
 <div class="container mt-5">
     <div class="card shadow-lg">
         <div class="card-body">
-            <h2 class="text-center mb-4">Quiz Test</h2>
+            <h2 class="text-center mb-4">{% trans "Quiz Test" %}</h2>
             <form method="post">
                 {% csrf_token %}
 
@@ -26,7 +28,7 @@
                 {% endfor %}
 
                 <div class="text-center">
-                    <button type="submit" class="btn btn-primary px-4 py-2">Finish</button>
+                    <button type="submit" class="btn btn-primary px-4 py-2">{% trans "Finish" %}</button>
                 </div>
             </form>
         </div>

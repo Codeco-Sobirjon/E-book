@@ -1,17 +1,18 @@
 {% extends 'base.html' %}
+{% load i18n %}
 
-{% block title %} Quiz Results {% endblock %}
+{% block title %} {% trans "Quiz Results" %} {% endblock %}
 
 {% block content %}
 <div class="container mt-5">
     <div class="card shadow-lg">
         <div class="card-body text-center">
-            <h2 class="mb-4">Quiz Results</h2>
-            <p class="fs-5"><strong>Correct Answers:</strong> <span class="text-success">{{ correct_answers }}</span></p>
-            <p class="fs-5"><strong>Wrong Answers:</strong> <span class="text-danger">{{ wrong_answers }}</span></p>
-            <p class="fs-5"><strong>Score Percentage:</strong> <span class="fw-bold">{{ score_percentage }}%</span></p>
+            <h2 class="mb-4">{% trans "Quiz Results" %}</h2>
+            <p class="fs-5"><strong>{% trans "Correct Answers:" %}</strong> <span class="text-success">{{ correct_answers }}</span></p>
+            <p class="fs-5"><strong>{% trans "Wrong Answers:" %}</strong> <span class="text-danger">{{ wrong_answers }}</span></p>
+            <p class="fs-5"><strong>{% trans "Score Percentage:" %}</strong> <span class="fw-bold">{{ score_percentage }}%</span></p>
 
-            <a href="{% url 'quiz_test' subcategory.id %}" class="btn btn-primary mt-3">Try Again</a>
+            <a href="{% url 'quiz_test' subcategory.id %}" class="btn btn-primary mt-3">{% trans "Try Again" %}</a>
         </div>
     </div>
 </div>

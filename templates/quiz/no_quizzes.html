@@ -1,12 +1,13 @@
 {% extends 'base.html' %}
+{% load i18n %}
 
-{% block title %} Quiz Results {% endblock %}
+{% block title %} {% trans "Quiz Results" %} {% endblock %}
 
 {% block content %}
 <div class="container mt-5">
     <div class="card shadow-lg">
         <div class="card-body text-center">
-            <h2 class="mb-4">No Quiz yet...</h2>
+            <h2 class="mb-4">{% trans "No Quiz yet..." %}</h2>
         </div>
     </div>
 </div>

@@ -1,8 +1,9 @@
 {% extends 'base.html' %}
 
+{% load i18n %}
 {% load custom_filters %}
 
-{% block title %} Home page {% endblock %}
+{% block title %} {% trans "Home page" %} {% endblock %}
 
 {% block content %}
 
@@ -10,23 +11,22 @@
     <div class="card shadow-sm p-3">
         <div class="row g-2" id="icons-container">
             <div class="card">
-                <h5 class="card-header">Lesson developments</h5>
+                <h5 class="card-header">{% trans "Lesson developments" %}</h5>
                 <div class="table-responsive text-nowrap">
                     <table class="table table-hover">
                         <thead>
                         <tr>
-                            <th>N</th>
-                            <th>Name lesson developments</th>
-                            <th>File</th>
+                            <th>{% trans "N" %}</th>
+                            <th>{% trans "Name lesson developments" %}</th>
+                            <th>{% trans "File" %}</th>
                         </tr>
                         </thead>
                         <tbody class="table-border-bottom-0">
                         {% for item in lesson_dev %}
                         <tr>
                             <td> {{ forloop.counter }} </td>
-                            <td><strong>{{ item.name }}</strong>
-                            </td>
-                            <td><a href="{{ item.file.url }}" class="btn btn-primary">Download</a></td>
+                            <td><strong>{{ item.name }}</strong></td>
+                            <td><a href="{{ item.file.url }}" class="btn btn-primary">{% trans "Download" %}</a></td>
                         </tr>
                         {% endfor %}
                         </tbody>
@@ -34,7 +34,7 @@
                 </div>
             </div>
             <div class="card">
-                <h5 class="card-header">Videos</h5>
+                <h5 class="card-header">{% trans "Videos" %}</h5>
                 <div class="card-body">
                     <div class="row">
                         {% for video in videos %}
@@ -47,15 +47,13 @@
                             </div>
                         </div>
                         {% empty %}
-                        <p class="text-muted">No videos available.</p>
+                        <p class="text-muted">{% trans "No videos available." %}</p>
                         {% endfor %}
                     </div>
                 </div>
             </div>
-
         </div>
     </div>
 </div>
-
 
 {% endblock %}

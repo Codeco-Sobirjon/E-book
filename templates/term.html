@@ -1,6 +1,7 @@
 {% extends 'base.html' %}
+{% load i18n %}
 
-{% block title %} Terms Page {% endblock %}
+{% block title %} {% trans "Terms Page" %} {% endblock %}
 
 {% block content %}
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"
@@ -13,7 +14,9 @@
             {% for item in term_list %}
                 {% if not item.category.is_test_page and not item.category.is_enter_page %}
                     <div class="divider">
-                        <div class="divider-text">{{ item.category.name }} (Terms: {{ item.terms.count }})</div>
+                        <div class="divider-text">
+                            {{ item.category.name }} ({% trans "Terms" %}: {{ item.terms.count }})
+                        </div>
                         <div class="row d-flex flex-wrap gap-2 w-100 demo-vertical-spacing m-2">
                             {% for term in item.terms %}
                                 <div class="col-2">
@@ -25,15 +28,15 @@
                                             data-bs-html="true"
                                             data-bs-content="<p>{{ term.description|escape }}</p>
                                                             <div class='d-flex justify-content-between'>
-                                                                <button type='button' class='btn btn-sm btn-outline-secondary'>Skip</button>
-                                                                <button type='button' class='btn btn-sm btn-primary'>Read More</button>
+                                                                <button type='button' class='btn btn-sm btn-outline-secondary'>{% trans "Skip" %}</button>
+                                                                <button type='button' class='btn btn-sm btn-primary'>{% trans "Read More" %}</button>
                                                             </div>"
                                             title="{{ term.name|escape }}">
                                         {{ term.name }}
                                     </button>
                                 </div>
                             {% empty %}
-                                <p class="text-muted">No terms available for this category.</p>
+                                <p class="text-muted">{% trans "No terms available for this category." %}</p>
                             {% endfor %}
                         </div>
                     </div>

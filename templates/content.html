@@ -1,4 +1,5 @@
 {% extends 'base.html' %}
+{% load i18n %}
 
 {% block title %} {{ instance_content.name }} {% endblock %}
 
@@ -30,7 +31,7 @@
         </div>
 
         <hr>
-        <h5 class="card-header">Main Content</h5>
+        <h5 class="card-header">{% trans "Main Content" %}</h5>
         <div class="table-responsive">
             <table class="table table-borderless">
                 <tbody>
@@ -47,7 +48,7 @@
         </div>
 
         <hr>
-        <h5 class="card-header font-bold">Examples</h5>
+        <h5 class="card-header font-bold">{% trans "Examples" %}</h5>
         <div class="table-responsive">
             <table class="table table-borderless" style="background-color: #def3d4;">
                 <tbody>
@@ -64,7 +65,7 @@
         </div>
 
         <hr>
-        <h5 class="card-header">Primary Resources</h5>
+        <h5 class="card-header">{% trans "Primary Resources" %}</h5>
         <div class="d-flex flex-column">
             {% for item in instance_content.content_resource.all %}
             <a class="card-header" href="{{ item.link }}" target="_blank">{{ item.name }}</a>

@@ -1,4 +1,5 @@
 {% extends 'base.html' %}
+{% load i18n %}
 
 {% block title %} {{ instance.name }} {% endblock %}
 
@@ -12,7 +13,7 @@
                 <p class="text-center">{{ item.description|safe }}</p>
             </div>
         {% empty %}
-            <p class="text-center">No content available.</p>
+            <p class="text-center">{% trans "No content available." %}</p>
         {% endfor %}
     </div>
 </div>
