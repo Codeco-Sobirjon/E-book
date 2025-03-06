@@ -15,11 +15,7 @@
 
                 {% for question in questions %}
                 <fieldset class="mb-4 p-3 border rounded">
-<<<<<<< HEAD
                     <legend class="h5"> {{ forloop.counter }} {{ question.text }}</legend>
-=======
-                    <legend class="h5">{{ forloop.counter }}. {{ question.text }}</legend>
->>>>>>> 5b4e2d3 (changed)
                     {% for answer in question.answers_list %}
                     <div class="form-check">
                         <input class="form-check-input" type="radio" name="question_{{ question.id }}" value="{{ answer.id }}" id="answer_{{ answer.id }}" required>
